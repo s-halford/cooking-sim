@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum Direction { Up, Down, Left, Right };
+public enum PlayerState { Walk, Interact}
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rayDistance = 1f;
+    [SerializeField] private int chopTime = 5;
     [SerializeField] private LayerMask interactableLayerMask;
     [SerializeField] private GameObject inventoryPanelPrefab;
     [SerializeField] private Transform centerPoint;
     [SerializeField] private Transform inventoryPoint;
+    [SerializeField] private StatusBar statusBar;
+    [SerializeField] private ChoppingBoard[] choppingBoards;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -20,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
     private Inventory inventory;
     private Dictionary<Direction, Vector2> directions = new Dictionary<Direction, Vector2>();
     private GameObject inventoryPanel;
+    private PlayerState currentState;
+    private IEnumerator chop;
+    private float timer;
 
     void Start()
     {
@@ -27,39 +34,60 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         inventory = GetComponent<Inventory>();
 
+        statusBar.gameObject.SetActive(false);
+        currentState = PlayerState.Walk;
+
         directions.Add(Direction.Up, Vector2.up);
         directions.Add(Direction.Down, Vector2.down);
         directions.Add(Direction.Left, Vector2.left);
         directions.Add(Direction.Right, Vector2.right);
 
+        SetupChoppingBoards();
         AddInventoryPanel();
     }
 
     void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-
-        if (movement != Vector2.zero)
+        if (currentState == PlayerState.Interact)
         {
-            anim.SetFloat("Horizontal", movement.x);
-            anim.SetFloat("Vertical", movement.y);
-
-            playerDir = GetDirection();
-
-            // If we're moving left set xScale to -1 to horizontally flip sideways-facing sprites
-            float xScale = movement.x < 0 ? -1f : 1f;
-            transform.localScale = new Vector3(xScale, 1f, 1f);
-        }
-
-        anim.SetFloat("Speed", movement.sqrMagnitude);
-
-        if (Input.GetKeyDown("space"))
+            timer += Time.deltaTime;
+            float timerPercent = timer / chopTime;
+            statusBar.SetFillPercent(timerPercent);
+        } else
         {
-            Interact();
-        }
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
 
-        UpdatePanel();
+            if (movement != Vector2.zero)
+            {
+                anim.SetFloat("Horizontal", movement.x);
+                anim.SetFloat("Vertical", movement.y);
+
+                playerDir = GetDirection();
+
+                // If we're moving left set xScale to -1 to horizontally flip sideways-facing sprites
+                float xScale = movement.x < 0 ? -1f : 1f;
+                transform.localScale = new Vector3(xScale, 1f, 1f);
+            }
+
+            anim.SetFloat("Speed", movement.sqrMagnitude);
+
+            if (Input.GetKeyDown("space"))
+            {
+                Interact();
+            }
+
+            UpdatePanel();
+
+        }
+    }
+
+    private void SetupChoppingBoards()
+    {
+        foreach(ChoppingBoard board in choppingBoards)
+        {
+            board.onChopCallback += WaitForChop;
+        }
     }
 
     private void AddInventoryPanel()
@@ -121,7 +149,27 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        movement.Normalize();
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         Debug.DrawRay(centerPoint.position, directions[playerDir] * rayDistance, Color.red);
+    }
+
+    void WaitForChop()
+    {
+        if (chop != null)
+            StopCoroutine(chop);
+
+        chop = ChopRoutine();
+        StartCoroutine(chop);
+    }
+
+    private IEnumerator ChopRoutine()
+    {
+        currentState = PlayerState.Interact;
+        statusBar.gameObject.SetActive(true);
+        timer = 0f;
+        yield return new WaitForSeconds(chopTime);
+        currentState = PlayerState.Walk;
+        statusBar.gameObject.SetActive(false);
     }
 }

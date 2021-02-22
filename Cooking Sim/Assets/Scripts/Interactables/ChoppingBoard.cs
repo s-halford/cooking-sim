@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ChoppingBoard : Interactable
 {
+    public delegate void OnChop();
+    public OnChop onChopCallback;
+
     private Inventory boardInventory;
     private Inventory playerInventory;
     private GameObject inventoryPanel;
@@ -25,7 +28,6 @@ public class ChoppingBoard : Interactable
         playerInventory = inventory;
         List<Vegetable> veggies = playerInventory.veggies;
         
-
         foreach(Vegetable vegetable in veggies)
         {
             boardInventory.Add(vegetable);
@@ -33,7 +35,8 @@ public class ChoppingBoard : Interactable
 
         playerInventory.Clear();
 
-        print(playerInventory.veggies.Count);
+        if (onChopCallback != null)
+            onChopCallback.Invoke();
     }
 
     private void AddInventoryPanel()
