@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public delegate void OnItemChanged();
+    public OnItemChanged onItemChangedCallback;
+
+    public int slots = 4;
     public List<Vegetable> veggies = new List<Vegetable>();
 
-    public void Add(Vegetable vegetable)
+    public bool Add(Vegetable vegetable)
     {
-        veggies.Add(vegetable);
+        if(veggies.Count < slots)
+        {
+            veggies.Add(vegetable);
+
+            if(onItemChangedCallback != null)
+                onItemChangedCallback.Invoke();
+
+            return true;
+        } else
+        {
+            return false;
+        }
+            
     }
 
     public void Remove(Vegetable vegetable)
     {
         veggies.Remove(vegetable);
+
+        if (onItemChangedCallback != null)
+            onItemChangedCallback.Invoke();
     }
 }

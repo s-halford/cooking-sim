@@ -47,15 +47,17 @@ public class VegetableSpawner : Interactable
 
         if(inventory != null)
         {
-            inventory.Add(vegetable);
-            vegetable = null;
-            spriteRenderer.sprite = null;
+            if(inventory.Add(vegetable))
+            {
+                vegetable = null;
+                spriteRenderer.sprite = null;
 
-            if (coolDown != null)
-                StopCoroutine(coolDown);
+                if (coolDown != null)
+                    StopCoroutine(coolDown);
 
-            coolDown = CooldownRoutine();
-            StartCoroutine(coolDown);
+                coolDown = CooldownRoutine();
+                StartCoroutine(coolDown);
+            }
         }
     }
 

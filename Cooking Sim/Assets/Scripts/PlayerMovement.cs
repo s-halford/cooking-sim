@@ -5,11 +5,13 @@ using UnityEngine;
 public enum Direction { Up, Down, Left, Right };
 
 public class PlayerMovement : MonoBehaviour
-{ 
-    public float moveSpeed = 5f;
-    public float rayDistance = 1f;
-    public SpriteRenderer itemSprite;
-    public Transform centerPoint;
+{
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float rayDistance = 1f;
+    [SerializeField] private LayerMask interactableLayerMask;
+    [SerializeField] private GameObject inventoryPanelPrefab;
+    [SerializeField] private Transform centerPoint;
+    [SerializeField] private Transform inventoryPoint;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -17,9 +19,8 @@ public class PlayerMovement : MonoBehaviour
     private Direction playerDir;
     private Inventory inventory;
     private Dictionary<Direction, Vector2> directions = new Dictionary<Direction, Vector2>();
+    private GameObject inventoryPanel;
 
-    [SerializeField] private LayerMask interactableLayerMask;
-    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
         directions.Add(Direction.Down, Vector2.down);
         directions.Add(Direction.Left, Vector2.left);
         directions.Add(Direction.Right, Vector2.right);
+
+        AddInventoryPanel();
     }
 
     void Update()
@@ -56,18 +59,36 @@ public class PlayerMovement : MonoBehaviour
             Interact();
         }
 
+        UpdatePanel();
+
+    }
+
+    private void AddInventoryPanel()
+    {
+        inventoryPanel = Instantiate(inventoryPanelPrefab);
+        inventoryPanel.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
+        InventoryUI inventoryUI = inventoryPanel.GetComponent<InventoryUI>();
+        inventoryUI.inventory = inventory;
+    }
+
+    private void UpdatePanel()
+    {
+        Vector3 targetPos = Camera.main.WorldToScreenPoint(inventoryPoint.transform.position);
+        inventoryPanel.transform.position = targetPos;
     }
 
     private void Interact()
     {
         RaycastHit2D ray = Physics2D.Raycast(centerPoint.position, directions[playerDir], rayDistance, interactableLayerMask);
-
-        Interactable interactable = ray.collider.GetComponent<Interactable>();
-
-        if(interactable != null)
+        
+        if(ray)
         {
-            interactable.Interact(inventory);
+            Interactable interactable = ray.collider.GetComponent<Interactable>();
+
+            if (interactable != null)
+                interactable.Interact(inventory);
         }
+        
     }
 
 

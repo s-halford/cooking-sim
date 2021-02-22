@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 4699061470102625182}
   - component: {fileID: 7103448374951972494}
   - component: {fileID: 5857712929197552936}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: VegetableSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
