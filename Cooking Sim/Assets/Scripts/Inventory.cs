@@ -34,4 +34,12 @@ public class Inventory : MonoBehaviour
         if (onItemChangedCallback != null)
             onItemChangedCallback.Invoke();
     }
+
+    public void Clear()
+    {
+        veggies.Clear();
+
+        if (onItemChangedCallback != null)
+            onItemChangedCallback.Invoke();
+    }
 }

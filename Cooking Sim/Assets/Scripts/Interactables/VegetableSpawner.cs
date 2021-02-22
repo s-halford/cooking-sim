@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class VegetableSpawner : Interactable
 {
-    //private SpriteRenderer spriteRenderer;
     private Vegetable vegetable;
     private Inventory inventory;
     private IEnumerator coolDown;
@@ -15,7 +14,6 @@ public class VegetableSpawner : Interactable
 
     private void Start()
     {
-        //spriteRenderer = GetComponent<SpriteRenderer>();
         SpawnVegetable();
     }
 
@@ -43,8 +41,6 @@ public class VegetableSpawner : Interactable
 
     void PickUp()
     {
-        Debug.Log("Picking up " + vegetable.itemName);
-
         if(inventory != null)
         {
             if(inventory.Add(vegetable))

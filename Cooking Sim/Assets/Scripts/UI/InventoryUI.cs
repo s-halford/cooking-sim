@@ -12,11 +12,6 @@ public class InventoryUI : MonoBehaviour
         inventory.onItemChangedCallback += UpdateUI;
     }
 
-    private void Update()
-    {
-        //Vector3 pos = Camera
-    }
-
     void UpdateUI()
     {
         foreach (Transform child in transform)

@@ -60,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         UpdatePanel();
-
     }
 
     private void AddInventoryPanel()
@@ -73,7 +72,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdatePanel()
     {
-        Vector3 targetPos = Camera.main.WorldToScreenPoint(inventoryPoint.transform.position);
+        float targetDistance = 0f;
+
+        switch (playerDir)
+        {
+            case Direction.Up:
+                targetDistance = 1f;
+                break;
+            case Direction.Down:
+                targetDistance = 1f;
+                break;
+            default:
+                targetDistance = 0.75f;
+                break;
+        }
+
+        Vector3 targetPoint = (Vector2)centerPoint.position + (directions[playerDir] * targetDistance);
+        Vector3 targetPos = Camera.main.WorldToScreenPoint(targetPoint);
         inventoryPanel.transform.position = targetPos;
     }
 
