@@ -12,17 +12,10 @@ public class StatusBar : MonoBehaviour
     private float maxFillWidthScale;
     private float fillHeightScale;
 
-    // Start is called before the first frame update
     void Start()
     {
         maxFillWidthScale = barFill.transform.localScale.x;
         fillHeightScale = barFill.transform.localScale.y;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void SetFillPercent(float fillPercent)

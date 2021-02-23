@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50855f9e85fc437695c9d92bbadb834, type: 3}
+  m_Name: Green_Chopped
+  m_EditorClassIdentifier: 
+  itemName: Yellow
+  defaultSprite: {fileID: 4830978245183638759, guid: 407f6905a439440ab8656da6d2f4ecc1,
+    type: 3}
+  choppedSprite: {fileID: -1061689002231634474, guid: 407f6905a439440ab8656da6d2f4ecc1,
+    type: 3}
+  isChopped: 0

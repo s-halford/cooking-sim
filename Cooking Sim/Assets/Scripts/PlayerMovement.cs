@@ -9,13 +9,11 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rayDistance = 1f;
-    [SerializeField] private int chopTime = 5;
     [SerializeField] private LayerMask interactableLayerMask;
     [SerializeField] private GameObject inventoryPanelPrefab;
     [SerializeField] private Transform centerPoint;
     [SerializeField] private Transform inventoryPoint;
     [SerializeField] private StatusBar statusBar;
-    [SerializeField] private ChoppingBoard[] choppingBoards;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -25,8 +23,9 @@ public class PlayerMovement : MonoBehaviour
     private Dictionary<Direction, Vector2> directions = new Dictionary<Direction, Vector2>();
     private GameObject inventoryPanel;
     private PlayerState currentState;
-    private IEnumerator chop;
     private float timer;
+    private int chopTime;
+    private ChoppingBoard[] choppingBoards;
 
     void Start()
     {
@@ -36,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
 
         statusBar.gameObject.SetActive(false);
         currentState = PlayerState.Walk;
+
+        chopTime = GameplayManager.instance.chopTime;
+        choppingBoards = GameplayManager.instance.choppingBoards;
 
         directions.Add(Direction.Up, Vector2.up);
         directions.Add(Direction.Down, Vector2.down);
@@ -154,22 +156,20 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(centerPoint.position, directions[playerDir] * rayDistance, Color.red);
     }
 
-    void WaitForChop()
+    void WaitForChop(bool isChopping)
     {
-        if (chop != null)
-            StopCoroutine(chop);
-
-        chop = ChopRoutine();
-        StartCoroutine(chop);
+        if (isChopping)
+        {
+            currentState = PlayerState.Interact;
+            statusBar.gameObject.SetActive(true);
+            timer = 0f;
+        }
+        else
+        {
+            currentState = PlayerState.Walk;
+            statusBar.gameObject.SetActive(false);
+        }
     }
 
-    private IEnumerator ChopRoutine()
-    {
-        currentState = PlayerState.Interact;
-        statusBar.gameObject.SetActive(true);
-        timer = 0f;
-        yield return new WaitForSeconds(chopTime);
-        currentState = PlayerState.Walk;
-        statusBar.gameObject.SetActive(false);
-    }
+        
 }

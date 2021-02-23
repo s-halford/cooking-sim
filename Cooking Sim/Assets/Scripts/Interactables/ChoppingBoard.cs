@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class ChoppingBoard : Interactable
 {
-    public delegate void OnChop();
+    public delegate void OnChop(bool isChopping);
     public OnChop onChopCallback;
 
     private Inventory boardInventory;
     private Inventory playerInventory;
     private GameObject inventoryPanel;
-    
+    private IEnumerator chop;
+    private int chopTime;
+
     [SerializeField] private GameObject inventoryPanelPrefab;
     [SerializeField] private Transform inventoryPoint;
 
     private void Start()
     {
         boardInventory = GetComponent<Inventory>();
+        chopTime = GameplayManager.instance.chopTime;
         AddInventoryPanel();
         UpdatePanel();
     }
@@ -26,17 +29,19 @@ public class ChoppingBoard : Interactable
         base.Interact(inventory);
 
         playerInventory = inventory;
-        List<Vegetable> veggies = playerInventory.veggies;
-        
-        foreach(Vegetable vegetable in veggies)
+
+        if(playerInventory.veggies.Count > 0)
         {
-            boardInventory.Add(vegetable);
+            Vegetable activeVegetable = playerInventory.veggies[0];
+            boardInventory.Add(activeVegetable);
+            playerInventory.Remove(activeVegetable);
+
+            if (chop != null)
+                StopCoroutine(chop);
+
+            chop = ChopRoutine();
+            StartCoroutine(chop);
         }
-
-        playerInventory.Clear();
-
-        if (onChopCallback != null)
-            onChopCallback.Invoke();
     }
 
     private void AddInventoryPanel()
@@ -51,5 +56,17 @@ public class ChoppingBoard : Interactable
     {
         Vector3 targetPos = Camera.main.WorldToScreenPoint(inventoryPoint.position);
         inventoryPanel.transform.position = targetPos;
+    }
+
+    private IEnumerator ChopRoutine()
+    {
+        if (onChopCallback != null)
+            onChopCallback.Invoke(true);
+        yield return new WaitForSeconds(chopTime);
+        if (onChopCallback != null)
+            onChopCallback.Invoke(false);
+        //boardInventory.Chop(activeVegetable);
+
+        print("CHOP COMPLETE");
     }
 }
