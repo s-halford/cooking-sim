@@ -3,8 +3,6 @@
 [CreateAssetMenu]
 public class Vegetable : ScriptableObject
 {
-    public string itemName;
-    public Sprite defaultSprite;
-    public Sprite choppedSprite;
+    public Sprite sprite;
     public bool isChopped = false;
 }

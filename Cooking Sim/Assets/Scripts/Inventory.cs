@@ -9,7 +9,7 @@ public class Inventory : MonoBehaviour
 
     public int slots = 4;
     public List<Vegetable> veggies = new List<Vegetable>();
-
+    
     public bool Add(Vegetable vegetable)
     {
         if(veggies.Count < slots)
@@ -35,9 +35,12 @@ public class Inventory : MonoBehaviour
             onItemChangedCallback.Invoke();
     }
 
-    public void Clear()
+    public void Chop(Vegetable vegetable)
     {
-        veggies.Clear();
+        Vegetable chopped = GameplayManager.instance.vegDict[vegetable];
+
+        veggies.Remove(vegetable);
+        veggies.Add(chopped);
 
         if (onItemChangedCallback != null)
             onItemChangedCallback.Invoke();

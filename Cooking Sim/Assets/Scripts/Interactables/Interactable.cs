@@ -6,11 +6,11 @@ public class Interactable : MonoBehaviour
 {
     public virtual void Interact()
     {
-        print("Interacting with " + transform.name);
+        //print("Interacting with " + transform.name);
     }
 
     public virtual void Interact(Inventory inventory)
     {
-        print("Interacting with " + transform.name);
+        //print("Interacting with " + transform.name);
     }
 }

@@ -65,8 +65,8 @@ public class ChoppingBoard : Interactable
         yield return new WaitForSeconds(chopTime);
         if (onChopCallback != null)
             onChopCallback.Invoke(false);
-        //boardInventory.Chop(activeVegetable);
-
-        print("CHOP COMPLETE");
+        
+        Vegetable choppedVeggie = boardInventory.veggies[boardInventory.veggies.Count - 1];
+        boardInventory.Chop(choppedVeggie);
     }
 }

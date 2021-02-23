@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class VegetableSpawner : Interactable
 {
+    private List<VegMap> sourceVeggies;
     private Vegetable vegetable;
     private Inventory inventory;
     private IEnumerator coolDown;
+    private int spawnDelayTime;
 
-    [SerializeField] private Vegetable[] sourceVegetables;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private int timer;
-
+  
     private void Start()
     {
+        spawnDelayTime = GameplayManager.instance.vegetableSpawnDelayTime;
+        sourceVeggies = GameplayManager.instance.sourceVeggies;
         SpawnVegetable();
     }
 
     void SpawnVegetable()
     {
-        vegetable = sourceVegetables[Random.Range(0, sourceVegetables.Length)];
-        spriteRenderer.sprite = vegetable.defaultSprite;
+        vegetable = sourceVeggies[Random.Range(0, sourceVeggies.Count)].whole;
+        spriteRenderer.sprite = vegetable.sprite;
     }
 
     public override void Interact()
@@ -59,7 +61,7 @@ public class VegetableSpawner : Interactable
 
     private IEnumerator CooldownRoutine()
     {
-        yield return new WaitForSeconds(timer);
+        yield return new WaitForSeconds(spawnDelayTime);
 
         if(!vegetable)
             SpawnVegetable();

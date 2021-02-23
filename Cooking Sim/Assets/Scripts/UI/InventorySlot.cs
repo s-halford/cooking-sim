@@ -1,16 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour
 {
-    Vegetable vegetable;
-    [SerializeField] private Image image;
+    private Image image;
 
-    public void AddItem(Vegetable newVegetable)
+    private void Awake()
     {
-        vegetable = newVegetable;
-        image.sprite = vegetable.defaultSprite;
+        image = GetComponent<Image>();
+    }
+
+    public void AddItem(Vegetable vegetable)
+    {
+        image.sprite = vegetable.sprite;
     }
 }

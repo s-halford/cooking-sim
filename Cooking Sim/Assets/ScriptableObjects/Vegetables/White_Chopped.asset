@@ -12,9 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50855f9e85fc437695c9d92bbadb834, type: 3}
   m_Name: White_Chopped
   m_EditorClassIdentifier: 
-  itemName: Yellow
-  defaultSprite: {fileID: 4830978245183638759, guid: 407f6905a439440ab8656da6d2f4ecc1,
-    type: 3}
-  choppedSprite: {fileID: -1061689002231634474, guid: 407f6905a439440ab8656da6d2f4ecc1,
-    type: 3}
-  isChopped: 0
+  sprite: {fileID: 7327595429916029517, guid: 407f6905a439440ab8656da6d2f4ecc1, type: 3}
+  isChopped: 1
