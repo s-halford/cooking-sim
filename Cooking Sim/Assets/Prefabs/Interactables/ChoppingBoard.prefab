@@ -102,8 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c09883bba6f64d0d92d35bb6d4e9845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryPanelPrefab: {fileID: 789753067771581506, guid: 8d4c17af362a5479aa6316fbc18a12f6,
-    type: 3}
+  hasInventory: 1
   inventoryPoint: {fileID: 665573051212182741}
 --- !u!114 &1334322366912374038
 MonoBehaviour:

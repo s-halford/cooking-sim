@@ -36,6 +36,7 @@ public class GameplayManager : MonoBehaviour
     // The maximum number of whole vegetable a player can carry at a time.
     public int maxWholeVegetables = 2;
 
+    public GameObject inventoryPanelPrefab;
     public ChoppingBoard[] choppingBoards;
 
     public List<VegMap> sourceVeggies;

@@ -6,7 +6,7 @@ public class VegetableSpawner : Interactable
 {
     private List<VegMap> sourceVeggies;
     private Vegetable vegetable;
-    private Inventory inventory;
+    private Inventory playerInventory;
     private IEnumerator coolDown;
     private int spawnDelayTime;
     private int maxWholeVegetables;
@@ -37,7 +37,7 @@ public class VegetableSpawner : Interactable
     public override void Interact(Inventory inventory)
     {
         base.Interact(inventory);
-        this.inventory = inventory;
+        playerInventory = inventory;
 
         if(vegetable && inventory.veggies.Count < maxWholeVegetables)
             PickUp();
@@ -45,9 +45,9 @@ public class VegetableSpawner : Interactable
 
     void PickUp()
     {
-        if(inventory != null)
+        if(playerInventory != null)
         {
-            if(inventory.Add(vegetable))
+            if(playerInventory.Add(vegetable))
             {
                 vegetable = null;
                 spriteRenderer.sprite = null;

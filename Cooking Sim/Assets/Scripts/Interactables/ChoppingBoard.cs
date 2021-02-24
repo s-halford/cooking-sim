@@ -13,21 +13,16 @@ public class ChoppingBoard : Interactable
 
     private Inventory boardInventory;
     private Inventory playerInventory;
-    private GameObject inventoryPanel;
     private IEnumerator chop;
     private int chopTime;
     private VegetableState playerVeggies;
     private VegetableState choppingBoardVeggies;
 
-    [SerializeField] private GameObject inventoryPanelPrefab;
-    [SerializeField] private Transform inventoryPoint;
-
     private void Start()
     {
         boardInventory = GetComponent<Inventory>();
         chopTime = GameplayManager.instance.chopTime;
-        AddInventoryPanel();
-        UpdatePanel();
+        if (boardInventory != null) AddInventoryPanel();
     }
 
     public override void Interact(Inventory inventory)
@@ -126,20 +121,6 @@ public class ChoppingBoard : Interactable
 
         chop = ChopRoutine();
         StartCoroutine(chop);
-    }
-
-    private void AddInventoryPanel()
-    {
-        inventoryPanel = Instantiate(inventoryPanelPrefab);
-        inventoryPanel.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
-        InventoryUI inventoryUI = inventoryPanel.GetComponent<InventoryUI>();
-        inventoryUI.inventory = boardInventory;
-    }
-
-    private void UpdatePanel()
-    {
-        Vector3 targetPos = Camera.main.WorldToScreenPoint(inventoryPoint.position);
-        inventoryPanel.transform.position = targetPos;
     }
 
     private IEnumerator ChopRoutine()
