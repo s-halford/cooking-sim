@@ -41,6 +41,8 @@ public class GameplayManager : MonoBehaviour
 
     public List<VegMap> sourceVeggies;
     public Dictionary<Vegetable, Vegetable> vegDict = new Dictionary<Vegetable, Vegetable>();
+
+    public Salad[] salads;
  
     private void Start()
     {
