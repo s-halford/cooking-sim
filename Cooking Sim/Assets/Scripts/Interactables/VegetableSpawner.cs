@@ -27,19 +27,12 @@ public class VegetableSpawner : Interactable
         spriteRenderer.sprite = vegetable.sprite;
     }
 
-    public override void Interact()
+    public override void Interact(Inventory playerInventory)
     {
-        base.Interact();
+        base.Interact(playerInventory);
+        this.playerInventory = playerInventory;
 
-        PickUp();
-    }
-
-    public override void Interact(Inventory inventory)
-    {
-        base.Interact(inventory);
-        playerInventory = inventory;
-
-        if(vegetable && inventory.veggies.Count < maxWholeVegetables)
+        if (vegetable && playerInventory.veggies.Count < maxWholeVegetables)
             PickUp();
     }
 

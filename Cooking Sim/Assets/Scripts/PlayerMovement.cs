@@ -96,8 +96,8 @@ public class PlayerMovement : MonoBehaviour
     {
         inventoryPanel = Instantiate(inventoryPanelPrefab);
         inventoryPanel.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
-        InventoryUI inventoryUI = inventoryPanel.GetComponent<InventoryUI>();
-        inventoryUI.inventory = inventory;
+        InventoryPanel panel = inventoryPanel.GetComponent<InventoryPanel>();
+        panel.inventory = inventory;
     }
 
     private void UpdatePanel()

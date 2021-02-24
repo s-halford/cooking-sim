@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryPanel : MonoBehaviour
 {
     public Inventory inventory;
     [SerializeField] private GameObject slotPrefab;
 
     void Start()
     {
-        if(inventory != null)
-            inventory.onItemChangedCallback += UpdateUI;
+        AddCallbacks();
     }
 
     void UpdateUI()
@@ -34,5 +33,12 @@ public class InventoryUI : MonoBehaviour
     {
         if (inventory != null)
             inventory.onItemChangedCallback += UpdateUI;
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        Vector3 inventoryPoint = transform.position + position;
+        Vector3 targetPos = Camera.main.WorldToScreenPoint(inventoryPoint);
+        transform.position = targetPos;
     }
 }

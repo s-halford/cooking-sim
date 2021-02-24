@@ -15,11 +15,11 @@ public class Plate : Interactable
         if (plateInventory != null) AddInventoryPanel();
     }
 
-    public override void Interact(Inventory inventory)
+    public override void Interact(Inventory playerInventory)
     {
-        base.Interact(inventory);
+        base.Interact(playerInventory);
+        this.playerInventory = playerInventory;
 
-        playerInventory = inventory;
         playerVeggies = GetPlayerVeggieState();
 
         bool isPlateEmpty = plateInventory.veggies.Count == 0;

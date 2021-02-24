@@ -6,11 +6,11 @@ public class Trash : Interactable
 {
     private Inventory playerInventory;
 
-    public override void Interact(Inventory inventory)
+    public override void Interact(Inventory playerInventory)
     {
-        base.Interact(inventory);
+        base.Interact(playerInventory);
 
-        playerInventory = inventory;
-        playerInventory.Clear();
+        this.playerInventory = playerInventory;
+        this.playerInventory.Clear();
     }
 }

@@ -25,11 +25,10 @@ public class ChoppingBoard : Interactable
         if (boardInventory != null) AddInventoryPanel();
     }
 
-    public override void Interact(Inventory inventory)
+    public override void Interact(Inventory playerInventory)
     {
-        base.Interact(inventory);
-
-        playerInventory = inventory;
+        base.Interact(playerInventory);
+        this.playerInventory = playerInventory;
 
         playerVeggies = GetPlayerVeggieState();
         choppingBoardVeggies = GetChoppingBoardVeggieState();

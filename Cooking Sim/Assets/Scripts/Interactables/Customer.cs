@@ -7,28 +7,29 @@ public class Customer : Interactable
 {
     [SerializeField] private Inventory tableInventory;
     [SerializeField] private Inventory saladInventory;
+    [SerializeField] private Transform saladPoint;
     private Inventory playerInventory;
 
     private Salad[] salads;
     private Salad activeSalad;
 
-    private GameObject saladPanel;
-    private GameObject tablePanel;
+    private InventoryPanel saladPanel;
+    private InventoryPanel tablePanel;
 
     void Start()
     {
         if (tableInventory != null) tablePanel = AddInventoryPanel(tableInventory);
         if (saladInventory != null) saladPanel = AddInventoryPanel(saladInventory);
-
+        saladPanel.AddCallbacks();
+        saladPanel.transform.position = Camera.main.WorldToScreenPoint(saladPoint.position);
         salads = GameplayManager.instance.salads;
         SpawnSalad();
     }
 
-    public override void Interact(Inventory inventory)
+    public override void Interact(Inventory playerInventory)
     {
-        base.Interact(inventory);
-
-        playerInventory = inventory;
+        base.Interact(playerInventory);
+        this.playerInventory = playerInventory;
         
         bool isTableEmpty = tableInventory.veggies.Count == 0;
 
@@ -46,7 +47,6 @@ public class Customer : Interactable
         }
 
         playerInventory.Clear();
-
         CheckSalad();
     }
 
@@ -59,6 +59,7 @@ public class Customer : Interactable
             saladInventory.Add(vegetable);
         }
 
+        saladPanel.inventory.Refresh();
         saladInventory.Refresh();
     }
 
