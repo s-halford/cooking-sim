@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
+// Data structure containing whole and chopped vegetable states.  Serializable so we can easily set up our vegetable list in editor.
 [System.Serializable]
 public struct VegMap
 {
@@ -27,8 +29,13 @@ public class GameplayManager : MonoBehaviour
 
     #endregion
 
+    // The amount of time it takes to chop a vegetable at a chopping board
     public int chopTime = 5;
+    // The amount of time it takes to respawn a vegetable after picking one up at a spawning station.
     public int vegetableSpawnDelayTime = 3;
+    // The maximum number of whole vegetable a player can carry at a time.
+    public int maxWholeVegetables = 2;
+
     public ChoppingBoard[] choppingBoards;
 
     public List<VegMap> sourceVeggies;
@@ -36,9 +43,7 @@ public class GameplayManager : MonoBehaviour
  
     private void Start()
     {
-        foreach(VegMap vegMap in sourceVeggies)
-        {
-            vegDict.Add(vegMap.whole, vegMap.chopped);
-        }
+        // Convert our VegMap list to a dictionary so we can more easily find the chopped version of a vegetable by looking for a key
+        vegDict = sourceVeggies.ToDictionary(x => x.whole, x => x.chopped);
     }
 }

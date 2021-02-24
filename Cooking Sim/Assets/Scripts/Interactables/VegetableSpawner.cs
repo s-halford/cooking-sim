@@ -9,6 +9,7 @@ public class VegetableSpawner : Interactable
     private Inventory inventory;
     private IEnumerator coolDown;
     private int spawnDelayTime;
+    private int maxWholeVegetables;
 
     [SerializeField] private SpriteRenderer spriteRenderer;
   
@@ -16,6 +17,7 @@ public class VegetableSpawner : Interactable
     {
         spawnDelayTime = GameplayManager.instance.vegetableSpawnDelayTime;
         sourceVeggies = GameplayManager.instance.sourceVeggies;
+        maxWholeVegetables = GameplayManager.instance.maxWholeVegetables;
         SpawnVegetable();
     }
 
@@ -37,7 +39,7 @@ public class VegetableSpawner : Interactable
         base.Interact(inventory);
         this.inventory = inventory;
 
-        if(vegetable)
+        if(vegetable && inventory.veggies.Count < maxWholeVegetables)
             PickUp();
     }
 
