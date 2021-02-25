@@ -19,6 +19,8 @@ public class StatusBar : MonoBehaviour
     private float timer;
     private bool timerActive = false;
 
+    private float speedMultiplier = 1f;
+
     public float percentFilled
     {
         get
@@ -37,7 +39,7 @@ public class StatusBar : MonoBehaviour
     {
         if(timerActive)
         {
-            timer -= Time.deltaTime;
+            timer -= Time.deltaTime * speedMultiplier;
             SetFillPercent(timer / totalTime);
 
             if (timer <= 0)
@@ -56,8 +58,14 @@ public class StatusBar : MonoBehaviour
 
     public void StartCountdownTimer(float duration)
     {
+        speedMultiplier = 1f;
         totalTime = duration;
         timer = totalTime;
         timerActive = true;
+    }
+
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        speedMultiplier = multiplier;
     }
 }

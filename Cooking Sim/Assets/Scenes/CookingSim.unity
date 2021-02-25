@@ -3266,6 +3266,9 @@ MonoBehaviour:
   - {fileID: 3249155250164635762, guid: b4d19c6e1f9194fdcb2bd554855c7503, type: 3}
   - {fileID: 8300460384929931605, guid: b4d19c6e1f9194fdcb2bd554855c7503, type: 3}
   - {fileID: 5905982034480578280, guid: b4d19c6e1f9194fdcb2bd554855c7503, type: 3}
+  players:
+  - {fileID: 161694873}
+  - {fileID: 870145299}
   choppingBoards:
   - {fileID: 259264884}
   sourceVeggies:

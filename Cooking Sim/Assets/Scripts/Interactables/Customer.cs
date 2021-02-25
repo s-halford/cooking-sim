@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.Events;
 
 public class Customer : Interactable
 {
@@ -23,10 +22,15 @@ public class Customer : Interactable
     private IEnumerator cooldown;
 
     private float timePerItem = 10;
+    private bool isAngry = false;
+    private List<Transform> badChefs = new List<Transform>();
+
+    private int badSaladScore = -500;
+    private int goodSaladScore = 500;
+    private float angrySpeedMultiplier = 1f;
     
     void Start()
     {
-        //print(statusBar);
         if (tableInventory != null) tablePanel = AddInventoryPanel(tableInventory);
         if (saladInventory != null) saladPanel = AddInventoryPanel(saladInventory);
 
@@ -97,13 +101,15 @@ public class Customer : Interactable
             print("GOOD SALAD!");
         } else
         {
+            tableInventory.Clear();
+            HandleAngryCustomer();
             print("BAD SALAD!");
         }
     }
 
     private void SpawnPowerup()
     {
-        print("Spawn Powerup");
+        print("SPAWN POWERUP");
     }
 
     private void ResetStation()
@@ -113,6 +119,8 @@ public class Customer : Interactable
         activeSalad = null;
         statusBar.gameObject.SetActive(false);
         spriteRenderer.sprite = null;
+        isAngry = false;
+        badChefs.Clear();
 
         if (cooldown != null)
             StopCoroutine(cooldown);
@@ -121,8 +129,32 @@ public class Customer : Interactable
         StartCoroutine(cooldown);
     }
 
+    private void HandleAngryCustomer()
+    {
+        isAngry = true;
+        if (!badChefs.Contains(player))
+            badChefs.Add(player);
+        statusBar.SetSpeedMultiplier(angrySpeedMultiplier);
+    }
+
     private void HandleTimeUp()
     {
+        if(isAngry && badChefs.Count > 0)
+        {
+            foreach(Transform badChef in badChefs)
+                GameplayManager.instance.AddScore(badSaladScore * 2, badChef);
+        } else
+        {
+            Transform[] players = GameplayManager.instance.players;
+            foreach (Transform player in players)
+            {
+                GameplayManager.instance.AddScore(badSaladScore, player);
+                
+            }
+
+        }
+
+        ResetStation();
         print("TIME OUT!");
     }
 

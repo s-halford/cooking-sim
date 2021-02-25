@@ -46,6 +46,7 @@ public class GameplayManager : MonoBehaviour
 
     public GameObject inventoryPanelPrefab;
     public Sprite[] customerSprites;
+    public Transform[] players;
     public ChoppingBoard[] choppingBoards;
 
     public List<VegMap> sourceVeggies;
