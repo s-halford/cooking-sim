@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Our abstract buttons
+// Buttons are abstracted to allow for easy multiplayer setup
 public enum Buttons
 {
     Right, Left, Up, Down, Action
 }
 
+
+// We want to map our buttons in the inspector, so serialize the InputAxis state
 [System.Serializable]
 public class InputAxisState
 {
@@ -18,14 +22,6 @@ public class InputAxisState
         get
         {
             return Input.GetAxisRaw(axisName);
-        }
-    }
-
-    public bool didKeyDown
-    {
-        get
-        {
-            return Input.GetKeyDown(axisName);
         }
     }
 }

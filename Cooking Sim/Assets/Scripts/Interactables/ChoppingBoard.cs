@@ -20,6 +20,7 @@ public class ChoppingBoard : Interactable
 
     private void Start()
     {
+        // Set up the inventory panel and retrieve value we will need to determine how long chopping will take
         boardInventory = GetComponent<Inventory>();
         chopTime = GameplayManager.instance.chopTime;
         if (boardInventory != null) AddInventoryPanel(boardInventory);
@@ -61,6 +62,7 @@ public class ChoppingBoard : Interactable
         }
     }
 
+    // Determine if player is carrying whole veggies, chopped veggies (salad), or is empty handed
     private VegetableState GetPlayerVeggieState()
     {
         if (playerInventory.veggies.Count == 0)
@@ -73,6 +75,8 @@ public class ChoppingBoard : Interactable
         }
     }
 
+    // Determine if the chopping board has any whole veggies (meaning there's a veggie waiting to be chopped)
+    // or whether the chopping board has chopped veggies or is empty
     private VegetableState GetChoppingBoardVeggieState()
     {
         if (boardInventory.veggies.Count == 0)
@@ -86,6 +90,8 @@ public class ChoppingBoard : Interactable
         }
     }
 
+    // Drop the vegetable the player is carrying on chopping board
+    // Player will drop the first vegetable in their inventory (i.e. the first one they collected)
     private void DropVegetable()
     {
         Vegetable activeVegetable = playerInventory.veggies[0];
@@ -93,6 +99,8 @@ public class ChoppingBoard : Interactable
         playerInventory.Remove(activeVegetable);
     }
 
+    // Drop the salad the player is carrying on the chopping board
+    // in case customer picked up too early and must add additional ingredients
     private void DropSalad()
     {
         foreach (Vegetable vegetable in playerInventory.veggies)
@@ -103,6 +111,7 @@ public class ChoppingBoard : Interactable
         playerInventory.Clear();
     }
 
+    // Pickup the salad on the chopping board
     private void PickupSalad()
     {
         foreach(Vegetable vegetable in boardInventory.veggies)
@@ -113,6 +122,7 @@ public class ChoppingBoard : Interactable
         boardInventory.Clear();
     }
 
+    // Chope the vegetable on the chopping board
     private void ChopVegetable()
     {
         if (chop != null)

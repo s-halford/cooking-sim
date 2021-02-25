@@ -40,7 +40,7 @@ public class Customer : Interactable
     private int goodSaladScore = 500;
 
     // Determine how much faster angry customer's timer will count down
-    private float angrySpeedMultiplier = 2.5f;
+    private float angrySpeedMultiplier = 3f;
     
     void Start()
     {
@@ -48,12 +48,12 @@ public class Customer : Interactable
         if (tableInventory != null) tablePanel = AddInventoryPanel(tableInventory);
         if (saladInventory != null) saladPanel = AddInventoryPanel(saladInventory);
 
-        // Setup callbacks, place inventory HUD elements in correct position, generate a salad
+        // Setup callbacks, place inventory HUD elements in correct position, set up the station
         statusBar.onTimerCompleteCallback += HandleTimeUp;
         saladPanel.AddCallbacks();
         saladPanel.transform.position = Camera.main.WorldToScreenPoint(saladPoint.position);
         salads = GameplayManager.instance.salads;
-        SpawnSalad();
+        ResetStation(0f, 5f);
     }
 
     public override void Interact(Inventory playerInventory)
@@ -125,6 +125,7 @@ public class Customer : Interactable
             // If player submitted incorrect ingredients, player gets angry
             tableInventory.Clear();
             HandleAngryCustomer();
+            Debug.Log("Incorrect salad");
         }
     }
 
@@ -147,7 +148,8 @@ public class Customer : Interactable
         powerup.owner = player;
     }
 
-    private void ResetStation()
+    // Reset station and specift minimum and maximum wait time between customers
+    private void ResetStation(float minWaitTime = 3f, float maxWaitTime = 7f)
     {
         // Reset everything at customer station
         tableInventory.Clear();
@@ -162,7 +164,7 @@ public class Customer : Interactable
         if (cooldown != null)
             StopCoroutine(cooldown);
 
-        cooldown = CooldownRoutine();
+        cooldown = CooldownRoutine(minWaitTime, maxWaitTime);
         StartCoroutine(cooldown);
     }
 
@@ -201,11 +203,11 @@ public class Customer : Interactable
         ResetStation();
     }
 
-    private IEnumerator CooldownRoutine()
+    private IEnumerator CooldownRoutine(float minWaitTime, float maxWaitTime)
     {
         // After station has been cleared, wait for next customer
         // Random wait time between 3 and 7 seconds used to create variation between customers
-        yield return new WaitForSeconds(Random.Range(3f, 7f));
+        yield return new WaitForSeconds(Random.Range(minWaitTime, maxWaitTime));
 
         // After waiting, generate a new random customer and salad
         Sprite[] sprites = GameplayManager.instance.customerSprites;

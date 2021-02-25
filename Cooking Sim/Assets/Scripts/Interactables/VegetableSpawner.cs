@@ -32,6 +32,7 @@ public class VegetableSpawner : Interactable
         base.Interact(playerInventory);
         this.playerInventory = playerInventory;
 
+        // If we have less vegetables than we can carry, pick up the vegetable
         if (vegetable && playerInventory.veggies.Count < maxWholeVegetables)
             PickUp();
     }
