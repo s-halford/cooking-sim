@@ -7,6 +7,8 @@ public enum PlayerState { Walk, Interact}
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Buttons[] input;
+
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rayDistance = 1f;
     [SerializeField] private LayerMask interactableLayerMask;
@@ -26,12 +28,15 @@ public class PlayerMovement : MonoBehaviour
     private float timer;
     private int chopTime;
     private ChoppingBoard[] choppingBoards;
+    private InputState inputState;
+    private bool isAxisInUse = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         inventory = GetComponent<Inventory>();
+        inputState = GetComponent<InputState>();
 
         statusBar.gameObject.SetActive(false);
         currentState = PlayerState.Walk;
@@ -50,6 +55,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        var left = inputState.GetButtonValue(input[0]);
+        var right = inputState.GetButtonValue(input[1]);
+        var up = inputState.GetButtonValue(input[2]);
+        var down = inputState.GetButtonValue(input[3]);
+        var action = inputState.GetButtonValue(input[4]);
+
+
         if (currentState == PlayerState.Interact)
         {
             timer += Time.deltaTime;
@@ -57,8 +69,22 @@ public class PlayerMovement : MonoBehaviour
             statusBar.SetFillPercent(timerPercent);
         } else
         {
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
+            if (right && !left)
+                movement.x = 1;
+            else if (left && !right)
+                movement.x = -1;
+            else
+                movement.x = 0;
+
+            if (up && !down)
+                movement.y = 1;
+            else if (down && !up)
+                movement.y = -1;
+            else
+                movement.y = 0;
+
+            //movement.x = Input.GetAxisRaw("Horizontal");
+            //movement.y = Input.GetAxisRaw("Vertical");
 
             if (movement != Vector2.zero)
             {
@@ -74,13 +100,23 @@ public class PlayerMovement : MonoBehaviour
 
             anim.SetFloat("Speed", movement.sqrMagnitude);
 
-            if (Input.GetKeyDown("space"))
+            //if (Input.GetKeyDown("space"))
+            //{
+            //    Interact();
+            //}
+
+            if (action)
             {
-                Interact();
+                if (!isAxisInUse)
+                    Interact();
+
+                isAxisInUse = true;
+            } else
+            {
+                isAxisInUse = false;
             }
 
             UpdatePanel();
-
         }
     }
 

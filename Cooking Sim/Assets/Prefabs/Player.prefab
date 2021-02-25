@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 338719105069765581}
   - component: {fileID: 338719105069765552}
   - component: {fileID: 338719105069765578}
+  - component: {fileID: 773432655}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -167,9 +168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bab4ddca917f14b1496811a372b804e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input: 0100000000000000020000000300000004000000
   moveSpeed: 5
   rayDistance: 1
-  chopTime: 5
   interactableLayerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -178,8 +179,6 @@ MonoBehaviour:
   centerPoint: {fileID: 338719105249460370}
   inventoryPoint: {fileID: 5686463680511089648}
   statusBar: {fileID: 3010325427111279912}
-  choppingBoards:
-  - {fileID: 0}
 --- !u!114 &338719105069765578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +193,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slots: 4
   veggies: []
+--- !u!114 &773432655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338719105069765555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06feec28d8c8b43a0a0cfe0a5e28f773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &338719105249460373
 GameObject:
   m_ObjectHideFlags: 0
