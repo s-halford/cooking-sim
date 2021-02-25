@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum Direction { Up, Down, Left, Right }
@@ -23,9 +24,15 @@ public class PlayerMovement : MonoBehaviour
     // Prefab that will used to display player's inventory
     [SerializeField] private GameObject inventoryPanelPrefab;
 
+    // Prefab that will used to display player's inventory
+    [SerializeField] private GameObject nameTagPrefab;
+
     // Center point of player
     // Used for line of sight raycasting, determining placement of inventory HUD element
     [SerializeField] private Transform centerPoint;
+
+    // Used for placement of name tag
+    [SerializeField] private Transform nameTagPoint;
 
     // Displayed over customer's head to display how much longer they have to wait while chopping
     [SerializeField] private StatusBar statusBar;
@@ -37,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     private Inventory inventory;
     private Dictionary<Direction, Vector2> directions = new Dictionary<Direction, Vector2>();
     private GameObject inventoryPanel;
+    private GameObject nameTag;
     private PlayerState currentState;
     private int chopTime;
     private ChoppingBoard[] choppingBoards;
@@ -68,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         directions.Add(Direction.Right, Vector2.right);
 
         SetupChoppingBoards();
-        AddInventoryPanel();
+        AddUI();
     }
 
     void Update()
@@ -76,13 +84,13 @@ public class PlayerMovement : MonoBehaviour
         UpdateTimer();
 
         if (currentState == PlayerState.Active) {
-            movePlayer();
-            checkForAction();
-            UpdatePanel();
+            MovePlayer();
+            CheckForAction();
+            UpdateUI();
         }
     }
 
-    private void movePlayer()
+    private void MovePlayer()
     {
         // Determine whether each of our movement buttons are pressed
         // Buttons are abstracted so each player can have unique inputs for multiplayer
@@ -123,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("Speed", movement.sqrMagnitude);
     }
 
-    private void checkForAction()
+    private void CheckForAction()
     {
         // Determine whether each of our action button has been pressed
         // Buttons are abstracted so each player can have unique inputs for multiplayer
@@ -175,6 +183,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void AddUI()
+    {
+        AddInventoryPanel();
+        AddNameTag();
+    }
+
     private void AddInventoryPanel()
     {
         // Inventory panel is used to display ingredients player is carrying
@@ -182,6 +196,24 @@ public class PlayerMovement : MonoBehaviour
         inventoryPanel.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
         InventoryPanel panel = inventoryPanel.GetComponent<InventoryPanel>();
         panel.inventory = inventory;
+    }
+
+    private void AddNameTag()
+    {
+        // NameTag is used to display ingredients player is carrying
+        nameTag = Instantiate(nameTagPrefab);
+        nameTag.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
+        var playerData = GameplayManager.instance.playerData;
+        var player = playerData.Where(t => t.player == transform).FirstOrDefault();
+
+        NameTag tag = nameTag.GetComponent<NameTag>();
+        tag.UpdateName(player.name);
+    }
+
+    private void UpdateUI()
+    {
+        UpdatePanel();
+        UpdateNameTag();
     }
 
     private void UpdatePanel()
@@ -206,6 +238,11 @@ public class PlayerMovement : MonoBehaviour
         Vector3 targetPoint = (Vector2)centerPoint.position + (directions[playerDir] * targetDistance);
         Vector3 targetPos = Camera.main.WorldToScreenPoint(targetPoint);
         inventoryPanel.transform.position = targetPos;
+    }
+
+    private void UpdateNameTag()
+    {
+        nameTag.transform.position = Camera.main.WorldToScreenPoint(nameTagPoint.position);
     }
 
     private void Interact()

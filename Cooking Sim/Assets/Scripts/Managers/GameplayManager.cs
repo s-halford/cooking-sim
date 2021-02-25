@@ -58,6 +58,7 @@ public class GameplayManager : MonoBehaviour
     public int playerTime = 120;
 
     public GameObject inventoryPanelPrefab;
+    public GameObject nameTagPrefab;
     public Sprite[] customerSprites;
     public Salad[] salads;
     public Transform[] players;
@@ -84,6 +85,7 @@ public class GameplayManager : MonoBehaviour
             GameOver();
     }
 
+    // Handle Game Over
     private void GameOver()
     {
         SceneManager.LoadScene(1);

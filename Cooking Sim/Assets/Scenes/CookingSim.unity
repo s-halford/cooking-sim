@@ -3428,6 +3428,8 @@ MonoBehaviour:
   playerTime: 120
   inventoryPanelPrefab: {fileID: 789753067771581506, guid: 8d4c17af362a5479aa6316fbc18a12f6,
     type: 3}
+  nameTagPrefab: {fileID: 7716123372180253393, guid: 5205cd2bf2d064aa1a5cd803d703c37f,
+    type: 3}
   customerSprites:
   - {fileID: -7028215270257684493, guid: b4d19c6e1f9194fdcb2bd554855c7503, type: 3}
   - {fileID: -5384411249408941408, guid: b4d19c6e1f9194fdcb2bd554855c7503, type: 3}
