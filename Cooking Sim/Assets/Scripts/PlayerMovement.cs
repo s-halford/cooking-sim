@@ -8,6 +8,8 @@ public enum PlayerState { Walk, Interact}
 public class PlayerMovement : MonoBehaviour
 {
     public Buttons[] input;
+    public float countdownTimer;
+    public int currentScore;
 
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rayDistance = 1f;
@@ -30,9 +32,8 @@ public class PlayerMovement : MonoBehaviour
     private ChoppingBoard[] choppingBoards;
     private InputState inputState;
     private bool isAxisInUse = false;
-
-    public float countdownTimer;
-    public int currentScore;
+    private float speedMultiplier = 1f;
+    private IEnumerator speedBoost;
 
     void Start()
     {
@@ -192,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         movement.Normalize();
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement * moveSpeed * speedMultiplier * Time.fixedDeltaTime);
         Debug.DrawRay(centerPoint.position, directions[playerDir] * rayDistance, Color.red);
     }
 
@@ -213,5 +214,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-        
+    public void SetSpeedMultiplier(float multiplier, float duration)
+    {
+        speedMultiplier = multiplier;
+
+        if (speedBoost != null)
+            StopCoroutine(speedBoost);
+
+        speedBoost = SpeedBoostRoutine(duration);
+        StartCoroutine(speedBoost);
+    }
+
+    public void IncreaseTime(float timeIncrease)
+    {
+        countdownTimer += timeIncrease;
+    }
+
+    private IEnumerator SpeedBoostRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        speedMultiplier = 1f;
+    }
+
 }

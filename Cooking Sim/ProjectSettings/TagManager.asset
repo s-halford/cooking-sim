@@ -42,6 +42,9 @@ TagManager:
   - name: Background
     uniqueID: 3336320383
     locked: 0
+  - name: Powerup
+    uniqueID: 3707440227
+    locked: 0
   - name: Interactable
     uniqueID: 3524963923
     locked: 0

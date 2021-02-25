@@ -12,7 +12,7 @@ public class Plate : Interactable
     void Start()
     {
         plateInventory = GetComponent<Inventory>();
-        if (plateInventory != null) AddInventoryPanel();
+        if (plateInventory != null) AddInventoryPanel(plateInventory);
     }
 
     public override void Interact(Inventory playerInventory)

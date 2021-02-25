@@ -22,7 +22,7 @@ public class ChoppingBoard : Interactable
     {
         boardInventory = GetComponent<Inventory>();
         chopTime = GameplayManager.instance.chopTime;
-        if (boardInventory != null) AddInventoryPanel();
+        if (boardInventory != null) AddInventoryPanel(boardInventory);
     }
 
     public override void Interact(Inventory playerInventory)
