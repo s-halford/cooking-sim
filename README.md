@@ -23,6 +23,7 @@ To assemble a meal...
 # CONTROLS
 
 **Player 1**
+
 Up -> Up Arrow
 Down -> Down Arrow
 Left -> Left Arrow
@@ -30,6 +31,7 @@ Right -> Right Arrow
 Action -> Spacebar
 
 **Player 2**
+
 Up -> w
 Down -> s
 Left -> a
