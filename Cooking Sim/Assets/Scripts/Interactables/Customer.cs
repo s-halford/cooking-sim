@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Events;
 
 public class Customer : Interactable
 {
     [SerializeField] private Inventory tableInventory;
     [SerializeField] private Inventory saladInventory;
     [SerializeField] private Transform saladPoint;
+
     private Inventory playerInventory;
+    private Transform player;
 
     private Salad[] salads;
     private Salad activeSalad;
@@ -30,6 +33,7 @@ public class Customer : Interactable
     {
         base.Interact(playerInventory);
         this.playerInventory = playerInventory;
+        this.player = playerInventory.gameObject.transform;
         
         bool isTableEmpty = tableInventory.veggies.Count == 0;
 
@@ -71,6 +75,7 @@ public class Customer : Interactable
         if(saladVeggies.Except(tableVeggies).Count() == 0 &&
             tableVeggies.Except(saladVeggies).Count() == 0)
         {
+            GameplayManager.instance.AddScore(500, this.player);
             print("SALAD WIN!");
         } else
         {

@@ -8,7 +8,7 @@ public enum VegetableState { Whole, Chopped, None };
 
 public class ChoppingBoard : Interactable
 {
-    public delegate void OnChop(bool isChopping);
+    public delegate void OnChop(bool isChopping, Transform player);
     public OnChop onChopCallback;
 
     private Inventory boardInventory;
@@ -125,10 +125,10 @@ public class ChoppingBoard : Interactable
     private IEnumerator ChopRoutine()
     {
         if (onChopCallback != null)
-            onChopCallback.Invoke(true);
+            onChopCallback.Invoke(true, playerInventory.gameObject.transform);
         yield return new WaitForSeconds(chopTime);
         if (onChopCallback != null)
-            onChopCallback.Invoke(false);
+            onChopCallback.Invoke(false, playerInventory.gameObject.transform);
         
         Vegetable choppedVeggie = boardInventory.veggies[boardInventory.veggies.Count - 1];
         boardInventory.Chop(choppedVeggie);

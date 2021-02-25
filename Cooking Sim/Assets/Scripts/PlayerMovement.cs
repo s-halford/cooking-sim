@@ -7,6 +7,9 @@ public enum PlayerState { Walk, Interact}
 
 public class PlayerMovement : MonoBehaviour
 {
+    public delegate void OnScoreChanged(int score, Transform player);
+    public OnScoreChanged onScoreChangedCallback;
+
     public Buttons[] input;
 
     [SerializeField] private float moveSpeed = 5f;
@@ -31,6 +34,9 @@ public class PlayerMovement : MonoBehaviour
     private InputState inputState;
     private bool isAxisInUse = false;
 
+    public float countdownTimer;
+    public int currentScore;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -43,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
         chopTime = GameplayManager.instance.chopTime;
         choppingBoards = GameplayManager.instance.choppingBoards;
+        countdownTimer = GameplayManager.instance.playerTime;
 
         directions.Add(Direction.Up, Vector2.up);
         directions.Add(Direction.Down, Vector2.down);
@@ -53,6 +60,12 @@ public class PlayerMovement : MonoBehaviour
         AddInventoryPanel();
     }
 
+    void UpdateTimer()
+    {
+        countdownTimer -= Time.deltaTime;
+        GameplayManager.instance.UpdateTimer(countdownTimer, transform);
+    }
+
     void Update()
     {
         var left = inputState.GetButtonValue(input[0]);
@@ -61,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         var down = inputState.GetButtonValue(input[3]);
         var action = inputState.GetButtonValue(input[4]);
 
+        UpdateTimer();
 
         if (currentState == PlayerState.Interact)
         {
@@ -83,9 +97,6 @@ public class PlayerMovement : MonoBehaviour
             else
                 movement.y = 0;
 
-            //movement.x = Input.GetAxisRaw("Horizontal");
-            //movement.y = Input.GetAxisRaw("Vertical");
-
             if (movement != Vector2.zero)
             {
                 anim.SetFloat("Horizontal", movement.x);
@@ -100,11 +111,6 @@ public class PlayerMovement : MonoBehaviour
 
             anim.SetFloat("Speed", movement.sqrMagnitude);
 
-            //if (Input.GetKeyDown("space"))
-            //{
-            //    Interact();
-            //}
-
             if (action)
             {
                 if (!isAxisInUse)
@@ -117,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             UpdatePanel();
+            
         }
     }
 
@@ -192,8 +199,10 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(centerPoint.position, directions[playerDir] * rayDistance, Color.red);
     }
 
-    void WaitForChop(bool isChopping)
+    void WaitForChop(bool isChopping, Transform playerTransform)
     {
+        if (transform != playerTransform) return;
+
         if (isChopping)
         {
             currentState = PlayerState.Interact;

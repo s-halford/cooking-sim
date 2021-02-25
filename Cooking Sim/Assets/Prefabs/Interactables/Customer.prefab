@@ -157,6 +157,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69039b7dc025b4ece95f959c6d8a4829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnCompleteEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   tableInventory: {fileID: 3700972864835863454}
   saladInventory: {fileID: 3346722912473272668}
   saladPoint: {fileID: 6260629477409515078}
