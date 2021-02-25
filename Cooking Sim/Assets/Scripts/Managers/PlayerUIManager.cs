@@ -16,18 +16,16 @@ public class PlayerUIManager : MonoBehaviour
     void Start()
     {
         // Add callbacks for score or timer changes
-        GameplayManager.instance.onScoreChangedCallback += AddScore;
+        GameplayManager.instance.onScoreChangedCallback += UpdateScore;
         GameplayManager.instance.onTimerChangedCallback += UpdateTimer;
         timerText.text = GameplayManager.instance.playerTime.ToString();
         scoreText.text = currentScore.ToString();
     }
 
-    void AddScore(int score, Transform player)
+    void UpdateScore(int score, Transform player)
     {
         if (this.player != player) return;
-
-        currentScore += score;
-        scoreText.text = currentScore.ToString();
+        scoreText.text = score.ToString();
     }
 
     void UpdateTimer(float time, Transform player)

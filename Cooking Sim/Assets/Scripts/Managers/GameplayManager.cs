@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Linq;
 
@@ -9,6 +10,15 @@ public struct VegMap
 {
     public Vegetable whole;
     public Vegetable chopped;
+}
+
+[System.Serializable]
+public class PlayerData
+{
+    public Transform player;
+    public string name;
+    public int score;
+    public int time;
 }
 
 public class GameplayManager : MonoBehaviour
@@ -29,7 +39,7 @@ public class GameplayManager : MonoBehaviour
 
     #endregion
 
-    public delegate void OnScoreChanged(int scoreToAdd, Transform player);
+    public delegate void OnScoreChanged(int score, Transform player);
     public OnScoreChanged onScoreChangedCallback;
 
     public delegate void OnTimerChanged(float time, Transform player);
@@ -55,6 +65,9 @@ public class GameplayManager : MonoBehaviour
     public ChoppingBoard[] choppingBoards;
     public List<VegMap> sourceVeggies;
     public Dictionary<Vegetable, Vegetable> vegDict = new Dictionary<Vegetable, Vegetable>();
+    public List<PlayerData> playerData;
+
+    private List<Transform> inactivePlayers = new List<Transform>();
 
     private void Start()
     {
@@ -62,10 +75,26 @@ public class GameplayManager : MonoBehaviour
         vegDict = sourceVeggies.ToDictionary(x => x.whole, x => x.chopped);
     }
 
+    // Called when a player has run out of time
+    // Will remove player and check if all players have lost
+    public void RemovePlayer(Transform player)
+    {
+        inactivePlayers.Add(player);
+        if (inactivePlayers.Count == players.Length)
+            GameOver();
+    }
+
+    private void GameOver()
+    {
+        SceneManager.LoadScene(1);
+    }
+
     // Called whenever a scoring event occurs
     public void AddScore(int scoreToAdd, Transform player)
     {
-        onScoreChangedCallback?.Invoke(scoreToAdd, player);
+        var thisPlayer = playerData.Where(x => x.player == player).SingleOrDefault();
+        thisPlayer.score += scoreToAdd;
+        onScoreChangedCallback?.Invoke(thisPlayer.score, player);
     }
 
     // Calledn whenever timer is updated

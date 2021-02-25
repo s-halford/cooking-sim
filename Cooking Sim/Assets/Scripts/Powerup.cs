@@ -10,7 +10,8 @@ public class Powerup : MonoBehaviour
     // Check if customer is eligible to pikcup item, if so, handle pickup and destroy object
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && owner == collision.gameObject.transform)
+        //if (collision.CompareTag("Player") && owner == collision.gameObject.transform)
+        if (collision.CompareTag("Player"))
         {
             Pickup(collision.transform);
             Destroy(gameObject);

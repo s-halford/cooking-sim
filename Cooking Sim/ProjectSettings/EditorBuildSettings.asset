@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/CookingSim.unity
+    guid: 5a5d83eca0d6e4f579de46947e0de69b
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 4522a7580df174fef8962a2f15a3b52e
   m_configObjects: {}

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Direction { Up, Down, Left, Right };
-public enum PlayerState { Walk, Interact}
+public enum Direction { Up, Down, Left, Right }
+public enum PlayerState { Active, Inactive }
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -38,13 +38,13 @@ public class PlayerMovement : MonoBehaviour
     private Dictionary<Direction, Vector2> directions = new Dictionary<Direction, Vector2>();
     private GameObject inventoryPanel;
     private PlayerState currentState;
-    //private float timer;
     private int chopTime;
     private ChoppingBoard[] choppingBoards;
     private InputState inputState;
     private bool isAxisInUse = false;
     private float speedMultiplier = 1f;
     private IEnumerator speedBoost;
+    private bool hasLost = false;
 
     void Start()
     {
@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         inputState = GetComponent<InputState>();
 
         statusBar.gameObject.SetActive(false);
-        currentState = PlayerState.Walk;
+        currentState = PlayerState.Active;
 
         chopTime = GameplayManager.instance.chopTime;
         choppingBoards = GameplayManager.instance.choppingBoards;
@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateTimer();
 
-        if (currentState == PlayerState.Walk) {
+        if (currentState == PlayerState.Active) {
             movePlayer();
             checkForAction();
             UpdatePanel();
@@ -147,8 +147,23 @@ public class PlayerMovement : MonoBehaviour
     // Countdown player's timer
     void UpdateTimer()
     {
-        countdownTimer -= Time.deltaTime;
-        GameplayManager.instance.UpdateTimer(countdownTimer, transform);
+        if(countdownTimer > 1 && !hasLost)
+        {
+            countdownTimer -= Time.deltaTime;
+            GameplayManager.instance.UpdateTimer(countdownTimer, transform);
+        } else
+        {
+            hasLost = true;
+            RemovePlayer();
+        }
+        
+    }
+
+    void RemovePlayer()
+    {
+        gameObject.SetActive(false);
+        currentState = PlayerState.Inactive;
+        GameplayManager.instance.RemovePlayer(transform);
     }
 
     private void SetupChoppingBoards()
@@ -239,14 +254,14 @@ public class PlayerMovement : MonoBehaviour
         // If player started chopping, start waiting for chop to complete
         if (isChopping)
         {
-            currentState = PlayerState.Interact;
+            currentState = PlayerState.Inactive;
             statusBar.gameObject.SetActive(true);
             statusBar.StartStopWatchTimer(chopTime);
         }
         else
         {
             // If chopping is complete, resume regulary gameplay
-            currentState = PlayerState.Walk;
+            currentState = PlayerState.Active;
             statusBar.gameObject.SetActive(false);
         }
     }

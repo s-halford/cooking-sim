@@ -3435,6 +3435,9 @@ MonoBehaviour:
   - {fileID: 3249155250164635762, guid: b4d19c6e1f9194fdcb2bd554855c7503, type: 3}
   - {fileID: 8300460384929931605, guid: b4d19c6e1f9194fdcb2bd554855c7503, type: 3}
   - {fileID: 5905982034480578280, guid: b4d19c6e1f9194fdcb2bd554855c7503, type: 3}
+  salads:
+  - {fileID: 11400000, guid: 48c0a8b8fb56c4f129679d720896dbd0, type: 2}
+  - {fileID: 11400000, guid: 069b134db945f4650ae96ff735467e49, type: 2}
   players:
   - {fileID: 161694873}
   - {fileID: 870145299}
@@ -3454,9 +3457,15 @@ MonoBehaviour:
     chopped: {fileID: 11400000, guid: 4d06cd043cc24425290a768fede14593, type: 2}
   - whole: {fileID: 11400000, guid: 72ced2e41b85643a5956d2e33b324759, type: 2}
     chopped: {fileID: 11400000, guid: 1b9bf4e8c4c1947758ba728cdd51c036, type: 2}
-  salads:
-  - {fileID: 11400000, guid: 48c0a8b8fb56c4f129679d720896dbd0, type: 2}
-  - {fileID: 11400000, guid: 069b134db945f4650ae96ff735467e49, type: 2}
+  playerData:
+  - player: {fileID: 161694873}
+    name: Player 1
+    score: 0
+    time: 0
+  - player: {fileID: 870145299}
+    name: Player 2
+    score: 0
+    time: 0
 --- !u!4 &1885273377 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4143885482544541772, guid: 212104f831dd54926a8c457142de8f39,
