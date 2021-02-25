@@ -25,13 +25,11 @@ To assemble a meal...
 **Player 1**
 
 Up -> Up Arrow
-
 Down -> Down Arrow
-
 Left -> Left Arrow
-
 Right -> Right Arrow
 Action -> Spacebar
+
 
 **Player 2**
 
