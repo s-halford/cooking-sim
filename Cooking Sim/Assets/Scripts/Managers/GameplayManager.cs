@@ -45,6 +45,7 @@ public class GameplayManager : MonoBehaviour
     public int playerTime = 120;
 
     public GameObject inventoryPanelPrefab;
+    public Sprite[] customerSprites;
     public ChoppingBoard[] choppingBoards;
 
     public List<VegMap> sourceVeggies;
@@ -60,11 +61,11 @@ public class GameplayManager : MonoBehaviour
 
     public void AddScore(int scoreToAdd, Transform player)
     {
-        onScoreChangedCallback.Invoke(scoreToAdd, player);
+        onScoreChangedCallback?.Invoke(scoreToAdd, player);
     }
 
     public void UpdateTimer(float time, Transform player)
     {
-        onTimerChangedCallback(time, player);
+        onTimerChangedCallback?.Invoke(time, player);
     }
 }

@@ -7,9 +7,6 @@ public enum PlayerState { Walk, Interact}
 
 public class PlayerMovement : MonoBehaviour
 {
-    public delegate void OnScoreChanged(int score, Transform player);
-    public OnScoreChanged onScoreChangedCallback;
-
     public Buttons[] input;
 
     [SerializeField] private float moveSpeed = 5f;

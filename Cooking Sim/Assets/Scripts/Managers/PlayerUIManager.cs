@@ -13,7 +13,6 @@ public class PlayerUIManager : MonoBehaviour
 
     private GameplayManager gameplayManager;
 
-    // Start is called before the first frame update
     void Start()
     {
         GameplayManager.instance.onScoreChangedCallback += AddScore;
