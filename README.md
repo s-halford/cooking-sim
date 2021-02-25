@@ -1,12 +1,12 @@
-## Cooking Simulation Unity Game
+# Cooking Simulation Unity Game
 
 ![Screenshot](https://ibb.co/YB553ft)
 
-# DESCRIPTION
+### DESCRIPTION
 
 If you can't take the heat, stay out of the kitchen!  This cooking simulator game developed in Unity will pit 2 players against each other in couch co-op madness!!  Can you keep your customers happy by serving them meals quickly while outpacing your opponent?!
 
-# HOW TO PLAY
+### HOW TO PLAY
 
 The rules are simple.  Customers sit in front of tables at the top of the screen, and above them they will show the ingredients for the meal you want.  Your job is to deliver them that meal before time runs out!  Each customer has only so much patience, so deliver your meals before the bar above them runs out or they will leave!
 
@@ -20,13 +20,16 @@ To assemble a meal...
 6. With chopped ingredients in hand, walk over to a customer table, and while standing in front of it, press the **action** button again to deliver your meal.
 7. Repeat until time runs out!!  You can get bonuses including additional time by delivering meals quickly!!
 
-# CONTROLS
+### CONTROLS
 
 **Player 1**
 
 Up -> Up Arrow
+
 Down -> Down Arrow
+
 Left -> Left Arrow
+
 Right -> Right Arrow
 Action -> Spacebar
 
