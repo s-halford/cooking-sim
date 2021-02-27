@@ -9,23 +9,6 @@ public enum Buttons
     Right, Left, Up, Down, Action
 }
 
-
-// We want to map our buttons in the inspector, so serialize the InputAxis state
-[System.Serializable]
-public class InputAxisState
-{
-    public string axisName;
-    public Buttons button;
-
-    public float rawValue
-    {
-        get
-        {
-            return Input.GetAxisRaw(axisName);
-        }
-    }
-}
-
 public class InputManager : MonoBehaviour
 {
     public InputAxisState[] inputs;

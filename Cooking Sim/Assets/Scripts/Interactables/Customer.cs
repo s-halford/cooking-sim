@@ -5,11 +5,11 @@ using System.Linq;
 
 public class Customer : Interactable
 {
-    [SerializeField] private Inventory tableInventory;
-    [SerializeField] private Inventory saladInventory;
-    [SerializeField] private Transform saladPoint;
-    [SerializeField] private StatusBar statusBar;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Inventory tableInventory = null;
+    [SerializeField] private Inventory saladInventory = null;
+    [SerializeField] private Transform saladPoint = null;
+    [SerializeField] private StatusBar statusBar = null;
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
 
     private Inventory playerInventory;
     private Transform player;
@@ -20,6 +20,7 @@ public class Customer : Interactable
     private InventoryPanel saladPanel;
     private InventoryPanel tablePanel;
     private IEnumerator cooldown;
+    private GameplayManager gameManager;
 
     // How much additional wait time to add for each item in customer's salad
     private float timePerItem = 10f;
@@ -48,11 +49,13 @@ public class Customer : Interactable
         if (tableInventory != null) tablePanel = AddInventoryPanel(tableInventory);
         if (saladInventory != null) saladPanel = AddInventoryPanel(saladInventory);
 
+        gameManager = GameplayManager.instance;
+
         // Setup callbacks, place inventory HUD elements in correct position, set up the station
         statusBar.onTimerCompleteCallback += HandleTimeUp;
         saladPanel.AddCallbacks();
         saladPanel.transform.position = Camera.main.WorldToScreenPoint(saladPoint.position);
-        salads = GameplayManager.instance.salads;
+        salads = gameManager.salads;
         ResetStation(0f, 5f);
     }
 
@@ -114,7 +117,7 @@ public class Customer : Interactable
             tableVeggies.Except(saladVeggies).Count() == 0)
         {
             // If the customer's salad has the correct ingredients, give them points and reset station
-            GameplayManager.instance.AddScore(goodSaladScore, this.player);
+            gameManager.AddScore(goodSaladScore, this.player);
             ResetStation();
 
             // If customer has more than 70% time left, spawn a powerup
@@ -132,7 +135,7 @@ public class Customer : Interactable
     private void SpawnPowerup()
     {
         // Grab a random powerup from our list
-        Transform[] powerupPrefabs = GameplayManager.instance.powerupPrefabs;
+        Transform[] powerupPrefabs = gameManager.powerupPrefabs;
         Transform powerupPrefab = powerupPrefabs[Random.Range(0, powerupPrefabs.Length)];
         var powerupItem = Instantiate(powerupPrefab);
 
@@ -186,17 +189,16 @@ public class Customer : Interactable
         if(isAngry && badChefs.Count > 0)
         {
             foreach(Transform badChef in badChefs)
-                GameplayManager.instance.AddScore(badSaladScore * 2, badChef);
+                gameManager.AddScore(badSaladScore * 2, badChef);
         } else
         {
             // If time ran out but no player delivered incorrect salad, penalize both players
-            Transform[] players = GameplayManager.instance.players;
-            foreach (Transform player in players)
-            {
-                GameplayManager.instance.AddScore(badSaladScore, player);
-                
-            }
+            List<PlayerData> playerData = gameManager.playerData;
 
+            foreach(var player in playerData)
+            {
+                gameManager.AddScore(badSaladScore, player.player);
+            }
         }
 
         // Reset station for next customer
@@ -210,7 +212,7 @@ public class Customer : Interactable
         yield return new WaitForSeconds(Random.Range(minWaitTime, maxWaitTime));
 
         // After waiting, generate a new random customer and salad
-        Sprite[] sprites = GameplayManager.instance.customerSprites;
+        Sprite[] sprites = gameManager.customerSprites;
         Sprite customerSprite = sprites[Random.Range(0, sprites.Length)];
         spriteRenderer.sprite = customerSprite;
         statusBar.gameObject.SetActive(false);

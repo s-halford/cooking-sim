@@ -5,7 +5,7 @@ using TMPro;
 
 public class NameTag : MonoBehaviour
 {
-    [SerializeField] TMP_Text nameText;
+    [SerializeField] TMP_Text nameText = null;
 
     public void UpdateName(string name)
     {

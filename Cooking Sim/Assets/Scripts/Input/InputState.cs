@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonState
-{
-    public float rawValue;
-}
-
-
 public class InputState : MonoBehaviour
 {
     private Dictionary<Buttons, ButtonState> buttonStates = new Dictionary<Buttons, ButtonState>();

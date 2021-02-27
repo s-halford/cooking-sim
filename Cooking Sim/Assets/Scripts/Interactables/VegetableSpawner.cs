@@ -11,7 +11,7 @@ public class VegetableSpawner : Interactable
     private int spawnDelayTime;
     private int maxWholeVegetables;
 
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
   
     private void Start()
     {

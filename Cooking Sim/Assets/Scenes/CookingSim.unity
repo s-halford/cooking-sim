@@ -462,6 +462,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 870145299}
+    - target: {fileID: 3580280842218320173, guid: 9d875e5298ca349a2abd0b44e38c5f4e,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 870145299}
     - target: {fileID: 4062859579483524568, guid: 9d875e5298ca349a2abd0b44e38c5f4e,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -845,18 +850,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 257447872}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &259264884 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7587747981446877870, guid: 914fc6d0629154ce382c2911099e109a,
-    type: 3}
-  m_PrefabInstance: {fileID: 8771307432484001561}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c09883bba6f64d0d92d35bb6d4e9845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &322805218 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4143885482544541772, guid: 212104f831dd54926a8c457142de8f39,
@@ -1319,6 +1312,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 161694873}
+    - target: {fileID: 3580280842218320173, guid: 9d875e5298ca349a2abd0b44e38c5f4e,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 161694873}
     - target: {fileID: 4062859579483524568, guid: 9d875e5298ca349a2abd0b44e38c5f4e,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1353,6 +1351,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player 1 UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332915273646616594, guid: 9d875e5298ca349a2abd0b44e38c5f4e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d875e5298ca349a2abd0b44e38c5f4e, type: 3}
@@ -2868,18 +2871,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 739952427}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1104684229 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7587747981446877870, guid: 914fc6d0629154ce382c2911099e109a,
-    type: 3}
-  m_PrefabInstance: {fileID: 739952427}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c09883bba6f64d0d92d35bb6d4e9845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1110628042 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4699061470102625182, guid: b1a7608440cd448fcbfccf9b7bfea83d,
@@ -3426,6 +3417,7 @@ MonoBehaviour:
   vegetableSpawnDelayTime: 3
   maxWholeVegetables: 2
   playerTime: 120
+  defaultScore: 0
   inventoryPanelPrefab: {fileID: 789753067771581506, guid: 8d4c17af362a5479aa6316fbc18a12f6,
     type: 3}
   nameTagPrefab: {fileID: 7716123372180253393, guid: 5205cd2bf2d064aa1a5cd803d703c37f,
@@ -3440,16 +3432,10 @@ MonoBehaviour:
   salads:
   - {fileID: 11400000, guid: 48c0a8b8fb56c4f129679d720896dbd0, type: 2}
   - {fileID: 11400000, guid: 069b134db945f4650ae96ff735467e49, type: 2}
-  players:
-  - {fileID: 161694873}
-  - {fileID: 870145299}
   powerupPrefabs:
   - {fileID: 2013244218256790682, guid: a443518118bed41edaf7eea7f7893d68, type: 3}
   - {fileID: 2013244218256790682, guid: 33c4e0d67e0314478b7d0448c408402e, type: 3}
   - {fileID: 2013244218256790682, guid: e117558f8ecc34b3d9db680760201cb5, type: 3}
-  choppingBoards:
-  - {fileID: 259264884}
-  - {fileID: 1104684229}
   sourceVeggies:
   - whole: {fileID: 11400000, guid: 97dfc72fdd3b2442d928217aa9fd2788, type: 2}
     chopped: {fileID: 11400000, guid: f140d182d8562432fa0ba60754cc5b17, type: 2}

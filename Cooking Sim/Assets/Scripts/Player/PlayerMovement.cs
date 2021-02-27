@@ -21,30 +21,18 @@ public class PlayerMovement : MonoBehaviour
     // Used to to determine if player can interact with object
     [SerializeField] private LayerMask interactableLayerMask;
 
-    // Prefab that will used to display player's inventory
-    [SerializeField] private GameObject inventoryPanelPrefab;
-
-    // Prefab that will used to display player's inventory
-    [SerializeField] private GameObject nameTagPrefab;
-
     // Center point of player
     // Used for line of sight raycasting, determining placement of inventory HUD element
-    [SerializeField] private Transform centerPoint;
-
-    // Used for placement of name tag
-    [SerializeField] private Transform nameTagPoint;
+    [SerializeField] private Transform centerPoint = null;
 
     // Displayed over customer's head to display how much longer they have to wait while chopping
-    [SerializeField] private StatusBar statusBar;
+    [SerializeField] private StatusBar statusBar = null;
 
     private Rigidbody2D rb;
     private Animator anim;
     private Vector2 movement;
-    private Direction playerDir;
     private Inventory inventory;
-    private Dictionary<Direction, Vector2> directions = new Dictionary<Direction, Vector2>();
-    private GameObject inventoryPanel;
-    private GameObject nameTag;
+    public Dictionary<Direction, Vector2> directions = new Dictionary<Direction, Vector2>();
     private PlayerState currentState;
     private int chopTime;
     private ChoppingBoard[] choppingBoards;
@@ -53,20 +41,23 @@ public class PlayerMovement : MonoBehaviour
     private float speedMultiplier = 1f;
     private IEnumerator speedBoost;
     private bool hasLost = false;
-
+    private GameplayManager gameManager;
+    public Direction playerDir;
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         inventory = GetComponent<Inventory>();
         inputState = GetComponent<InputState>();
-
+        
         statusBar.gameObject.SetActive(false);
         currentState = PlayerState.Active;
 
-        chopTime = GameplayManager.instance.chopTime;
-        choppingBoards = GameplayManager.instance.choppingBoards;
-        countdownTimer = GameplayManager.instance.playerTime;
+        gameManager = GameplayManager.instance;
+        chopTime = gameManager.chopTime;
+        choppingBoards = GameObject.FindObjectsOfType<ChoppingBoard>();
+        countdownTimer = gameManager.playerTime;
 
         // Directions is a dictionary used to determine the associated vector to use for
         // for line of sight and inventory HUD element placement, as placement depends on direction player is facing
@@ -76,7 +67,6 @@ public class PlayerMovement : MonoBehaviour
         directions.Add(Direction.Right, Vector2.right);
 
         SetupChoppingBoards();
-        AddUI();
     }
 
     void Update()
@@ -86,7 +76,6 @@ public class PlayerMovement : MonoBehaviour
         if (currentState == PlayerState.Active) {
             MovePlayer();
             CheckForAction();
-            UpdateUI();
         }
     }
 
@@ -158,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
         if(countdownTimer > 1 && !hasLost)
         {
             countdownTimer -= Time.deltaTime;
-            GameplayManager.instance.UpdateTimer(countdownTimer, transform);
+            gameManager.UpdateTimer(countdownTimer, transform);
         } else
         {
             hasLost = true;
@@ -171,78 +160,18 @@ public class PlayerMovement : MonoBehaviour
     {
         gameObject.SetActive(false);
         currentState = PlayerState.Inactive;
-        GameplayManager.instance.RemovePlayer(transform);
+        gameManager.RemovePlayer(transform);
     }
 
     private void SetupChoppingBoards()
     {
+
+
         // Add a callback for each chopping board
         foreach(ChoppingBoard board in choppingBoards)
         {
             board.onChopCallback += WaitForChop;
         }
-    }
-
-    private void AddUI()
-    {
-        AddInventoryPanel();
-        AddNameTag();
-    }
-
-    private void AddInventoryPanel()
-    {
-        // Inventory panel is used to display ingredients player is carrying
-        inventoryPanel = Instantiate(inventoryPanelPrefab);
-        inventoryPanel.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
-        InventoryPanel panel = inventoryPanel.GetComponent<InventoryPanel>();
-        panel.inventory = inventory;
-    }
-
-    private void AddNameTag()
-    {
-        // NameTag is used to display ingredients player is carrying
-        nameTag = Instantiate(nameTagPrefab);
-        nameTag.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
-        var playerData = GameplayManager.instance.playerData;
-        var player = playerData.Where(t => t.player == transform).FirstOrDefault();
-
-        NameTag tag = nameTag.GetComponent<NameTag>();
-        tag.UpdateName(player.name);
-    }
-
-    private void UpdateUI()
-    {
-        UpdatePanel();
-        UpdateNameTag();
-    }
-
-    private void UpdatePanel()
-    {
-        float targetDistance = 0f;
-
-        // Based on which direction we're facing we adjust how far away invetory panel is from player
-        // This is used to simulate player carrying vegetables they picked up
-        switch (playerDir)
-        {
-            case Direction.Up:
-                targetDistance = 1f;
-                break;
-            case Direction.Down:
-                targetDistance = 1f;
-                break;
-            default:
-                targetDistance = 0.75f;
-                break;
-        }
-
-        Vector3 targetPoint = (Vector2)centerPoint.position + (directions[playerDir] * targetDistance);
-        Vector3 targetPos = Camera.main.WorldToScreenPoint(targetPoint);
-        inventoryPanel.transform.position = targetPos;
-    }
-
-    private void UpdateNameTag()
-    {
-        nameTag.transform.position = Camera.main.WorldToScreenPoint(nameTagPoint.position);
     }
 
     private void Interact()
@@ -260,7 +189,6 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
-
 
     private Direction GetDirection()
     {

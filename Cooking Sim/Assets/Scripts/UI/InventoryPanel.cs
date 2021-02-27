@@ -5,7 +5,7 @@ using UnityEngine;
 public class InventoryPanel : MonoBehaviour
 {
     public Inventory inventory;
-    [SerializeField] private GameObject slotPrefab;
+    [SerializeField] private GameObject slotPrefab = null;
 
     void Start()
     {

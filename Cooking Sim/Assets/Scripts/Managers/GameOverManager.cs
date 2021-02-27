@@ -5,8 +5,8 @@ using System.Linq;
 
 public class GameOverManager : MonoBehaviour
 {
-    [SerializeField] TMP_Text playerText;
-    [SerializeField] TMP_Text scoreText;
+    [SerializeField] TMP_Text playerText = null;
+    [SerializeField] TMP_Text scoreText = null;
 
     private void Start()
     {

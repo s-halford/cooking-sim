@@ -42,7 +42,7 @@ public class GameplayManager : MonoBehaviour
     public delegate void OnScoreChanged(int score, Transform player);
     public OnScoreChanged onScoreChangedCallback;
 
-    public delegate void OnTimerChanged(float time, Transform player);
+    public delegate void OnTimerChanged(int time, Transform player);
     public OnTimerChanged onTimerChangedCallback;
 
     // The amount of time it takes to chop a vegetable at a chopping board
@@ -57,13 +57,14 @@ public class GameplayManager : MonoBehaviour
     // The amount of time a player starts with
     public int playerTime = 120;
 
+    // The detault score a player starts with
+    public int defaultScore = 0;
+
     public GameObject inventoryPanelPrefab;
     public GameObject nameTagPrefab;
     public Sprite[] customerSprites;
     public Salad[] salads;
-    public Transform[] players;
     public Transform[] powerupPrefabs;
-    public ChoppingBoard[] choppingBoards;
     public List<VegMap> sourceVeggies;
     public Dictionary<Vegetable, Vegetable> vegDict = new Dictionary<Vegetable, Vegetable>();
     public List<PlayerData> playerData;
@@ -81,7 +82,7 @@ public class GameplayManager : MonoBehaviour
     public void RemovePlayer(Transform player)
     {
         inactivePlayers.Add(player);
-        if (inactivePlayers.Count == players.Length)
+        if (inactivePlayers.Count == playerData.Count)
             GameOver();
     }
 
@@ -102,6 +103,8 @@ public class GameplayManager : MonoBehaviour
     // Calledn whenever timer is updated
     public void UpdateTimer(float time, Transform player)
     {
-        onTimerChangedCallback?.Invoke(time, player);
+        var thisPlayer = playerData.Where(x => x.player == player).SingleOrDefault();
+        thisPlayer.time = (int)time;
+        onTimerChangedCallback?.Invoke(thisPlayer.time, player);
     }
 }

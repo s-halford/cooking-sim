@@ -11,11 +11,8 @@ public class StatusBar : MonoBehaviour
 
     public float percentFilled;
 
-    [SerializeField] Transform barFill;
-    [SerializeField] Transform barEmpty;
-    [SerializeField] Color fillColor;
-    [SerializeField] Color emptyColor;
-
+    [SerializeField] Transform barFill = null;
+    
     private float maxFillWidthScale;
     private float fillHeightScale;
     private float totalTime;
@@ -33,7 +30,6 @@ public class StatusBar : MonoBehaviour
 
     private void Update()
     {
-
         if (!timerActive) return;
 
         // Count up or down depending we're using stopwatch or countdown mode
