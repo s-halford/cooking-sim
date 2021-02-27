@@ -67,6 +67,11 @@ public class PlayerMovement : MonoBehaviour
         directions.Add(Direction.Right, Vector2.right);
 
         SetupChoppingBoards();
+
+        // Set player to intially be facing down (toward camera);
+        movement = new Vector2(0, -1);
+        anim.SetFloat("Horizontal", movement.x);
+        anim.SetFloat("Vertical", movement.y);
     }
 
     void Update()
@@ -77,6 +82,14 @@ public class PlayerMovement : MonoBehaviour
             MovePlayer();
             CheckForAction();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        // Move our player
+        movement.Normalize();
+        rb.MovePosition(rb.position + movement * moveSpeed * speedMultiplier * Time.fixedDeltaTime);
+        Debug.DrawRay(centerPoint.position, directions[playerDir] * rayDistance, Color.red);
     }
 
     private void MovePlayer()
@@ -204,14 +217,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        // Move our player
-        movement.Normalize();
-        rb.MovePosition(rb.position + movement * moveSpeed * speedMultiplier * Time.fixedDeltaTime);
-        Debug.DrawRay(centerPoint.position, directions[playerDir] * rayDistance, Color.red);
-    }
-
     void WaitForChop(bool isChopping, Transform playerTransform)
     {
         if (transform != playerTransform) return;
@@ -219,6 +224,7 @@ public class PlayerMovement : MonoBehaviour
         // If player started chopping, start waiting for chop to complete
         if (isChopping)
         {
+            anim.SetFloat("Speed", 0);
             currentState = PlayerState.Inactive;
             statusBar.gameObject.SetActive(true);
             statusBar.StartStopWatchTimer(chopTime);

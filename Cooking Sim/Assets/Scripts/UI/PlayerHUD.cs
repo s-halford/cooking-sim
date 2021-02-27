@@ -16,19 +16,19 @@ public class PlayerHUD : MonoBehaviour
         // Add callbacks for score or timer changes
         gameplayManager.onScoreChangedCallback += UpdateScore;
         gameplayManager.onTimerChangedCallback += UpdateTimer;
-        timerText.text = gameplayManager.playerTime.ToString();
-        scoreText.text = gameplayManager.defaultScore.ToString();
+        timerText.text = " " + gameplayManager.playerTime.ToString();
+        scoreText.text = " " + gameplayManager.defaultScore.ToString();
     }
 
     void UpdateScore(int score, Transform player)
     {
         if (this.player != player) return;
-        scoreText.text = score.ToString();
+        scoreText.text = " " + score.ToString();
     }
 
     void UpdateTimer(int time, Transform player)
     {
         if (this.player != player) return;
-        timerText.text = time.ToString();
+        timerText.text = " " + time.ToString();
     }
 }

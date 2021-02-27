@@ -68,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -770003373
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -91,7 +91,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4699061470102625182}
   - component: {fileID: 7103448374951972494}
-  - component: {fileID: 5857712929197552936}
+  - component: {fileID: 7866918236870870667}
+  - component: {fileID: 7313022118157872776}
   m_Layer: 8
   m_Name: VegetableSpawner
   m_TagString: Untagged
@@ -140,7 +141,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5857712929197552936
+--- !u!114 &7866918236870870667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,10 +153,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f9b42a56de8445fa82940af37e069cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sourceVegetables:
-  - {fileID: 11400000, guid: 97dfc72fdd3b2442d928217aa9fd2788, type: 2}
-  - {fileID: 11400000, guid: 30f7294ed0408495ea3f6db483003b54, type: 2}
-  - {fileID: 11400000, guid: 6d55e966edb6e40148adb384f031fb93, type: 2}
-  - {fileID: 11400000, guid: 72ced2e41b85643a5956d2e33b324759, type: 2}
-  spriteRenderer: {fileID: 3086988694362416501}
-  timer: 3
+--- !u!114 &7313022118157872776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7792332465525810471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1630813488ce142289c81daaeea844c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slots: 1
+  veggies: []

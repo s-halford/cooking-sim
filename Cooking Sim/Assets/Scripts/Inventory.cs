@@ -53,10 +53,4 @@ public class Inventory : MonoBehaviour
         if (onItemChangedCallback != null)
             onItemChangedCallback.Invoke();
     }
-
-    public void Refresh()
-    {
-        if (onItemChangedCallback != null)
-            onItemChangedCallback.Invoke();
-    }
 }

@@ -221,9 +221,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Time:
-
-'
+  m_text: 'Time:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1e12efe336734d6bbfc107f60accdf0, type: 2}
   m_sharedMaterial: {fileID: -8798429867208502422, guid: b1e12efe336734d6bbfc107f60accdf0,
@@ -259,7 +257,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 260
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -293,9 +291,9 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1052574106003556535}
-    characterCount: 6
+    characterCount: 5
     spriteCount: 0
-    spaceCount: 1
+    spaceCount: 0
     wordCount: 1
     linkCount: 0
     lineCount: 1
@@ -328,7 +326,7 @@ GameObject:
   - component: {fileID: 6844678677415574130}
   - component: {fileID: 3580280842218320173}
   m_Layer: 5
-  m_Name: PlayerUI
+  m_Name: PlayerHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -393,8 +391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36db470041ac444c9bb37b3468b5ad7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScore: 0
-  currentTime: 0
   timerText: {fileID: 1052574105762917415}
   scoreText: {fileID: 8778678775925345712}
   player: {fileID: 0}
@@ -498,7 +494,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 260
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0

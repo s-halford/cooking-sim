@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VegetableSpawner : Interactable
+public class Spawner : Interactable
 {
     private Inventory spawnerInventory;
     private Inventory playerInventory;
@@ -35,7 +35,7 @@ public class VegetableSpawner : Interactable
     public override void Interact(Inventory inventory)
     {
         base.Interact(inventory);
-
+        
         playerInventory = inventory;
 
         if (playerInventory.veggies.Count < maxWholeVegetables && spawnerInventory.veggies.Count > 0)
@@ -62,7 +62,7 @@ public class VegetableSpawner : Interactable
     {
         yield return new WaitForSeconds(spawnDelayTime);
 
-        if (spawnerInventory.veggies.Count == 0)
+        if(spawnerInventory.veggies.Count == 0)
             SpawnVegetable();
     }
 }

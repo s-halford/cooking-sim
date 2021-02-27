@@ -34,11 +34,4 @@ public class InventoryPanel : MonoBehaviour
         if (inventory != null)
             inventory.onItemChangedCallback += UpdateUI;
     }
-
-    public void SetPosition(Vector3 position)
-    {
-        Vector3 inventoryPoint = transform.position + position;
-        Vector3 targetPos = Camera.main.WorldToScreenPoint(inventoryPoint);
-        transform.position = targetPos;
-    }
 }

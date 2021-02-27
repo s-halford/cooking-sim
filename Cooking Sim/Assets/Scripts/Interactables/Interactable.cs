@@ -21,6 +21,7 @@ public class Interactable : MonoBehaviour
         inventoryPanel.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
         InventoryPanel panel = inventoryPanel.GetComponent<InventoryPanel>();
         panel.inventory = inventory;
+        panel.AddCallbacks();
 
         Vector3 inventoryPoint = transform.position + new Vector3(0.5f, -0.5f);
         Vector3 targetPos = Camera.main.WorldToScreenPoint(inventoryPoint);
