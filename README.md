@@ -1,5 +1,7 @@
 # Cooking Simulation Unity Game
 
+![](https://i.ibb.co/RTXX9QC/screenshot.png)
+
 ### DESCRIPTION
 
 If you can't take the heat, stay out of the kitchen!  This cooking simulator game developed in Unity will pit 2 players against each other in couch co-op madness!!  Can you keep your customers happy by serving them meals quickly while outpacing your opponent?!
